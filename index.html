@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" href="imgs/$Dev_Kofu.png" type="image/png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dev_Kofu | Software Developer</title>
+    <title>Kineyo | Software Developer</title>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -29,6 +29,7 @@
 
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 80px;
         }
 
         body {
@@ -37,6 +38,11 @@
             font-family: var(--font-sans);
             line-height: 1.7;
             overflow-x: hidden;
+            width: 100%;
+        }
+
+        body.no-scroll {
+            overflow: hidden;
         }
         .bg-grid {
             position: fixed;
@@ -100,6 +106,53 @@
 
         .nav-links a:hover {
             color: var(--secondary);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1001;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 42px;
+            height: 42px;
+            border-radius: 6px;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .nav-toggle:hover, .nav-toggle:focus-visible {
+            background-color: var(--surface-hover);
+            border-color: var(--border);
+            outline: none;
+        }
+
+        .nav-toggle .bar {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background-color: var(--text-main);
+            border-radius: 2px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, background-color 0.3s ease;
+        }
+
+        .nav-toggle.active .bar:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+            background-color: var(--primary);
+        }
+
+        .nav-toggle.active .bar:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .nav-toggle.active .bar:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+            background-color: var(--primary);
         }
         section {
             padding: 100px 0;
@@ -225,9 +278,22 @@
             border-bottom: 1px solid var(--border);
             padding-bottom: 10px;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        .tabs-header::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .tabs-header::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
         }
 
         .tab-btn {
+            flex-shrink: 0;
             background: transparent;
             border: none;
             color: var(--text-muted);
@@ -389,18 +455,466 @@
             transform: translateY(0);
         }
 
+        /* ========================================================
+           SECCIÓN SOBRE MÍ
+           ======================================================== */
+        .about-content {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .about-paragraph {
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .skills-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .skill-arrow {
+            color: var(--primary);
+            margin-right: 6px;
+        }
+
+        .about-avatar-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .about-avatar {
+            width: 100%;
+            max-width: 280px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .about-avatar:hover {
+            border-color: var(--secondary);
+            transform: scale(1.02);
+        }
+
+        .about-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ========================================================
+           RESPONSIVE - TABLETS Y TELÉFONOS (<= 768px)
+           ======================================================== */
         @media (max-width: 768px) {
-            .project-layout {
-                grid-template-columns: 1fr;
+            html {
+                scroll-padding-top: 70px;
             }
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            .nav-links {
-                display: none;
-            }
+
             section {
                 padding: 60px 0;
+                min-height: auto;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+                margin-bottom: 30px;
+            }
+
+            .section-title::after {
+                margin-left: 15px;
+            }
+
+            /* --- Navbar Móvil --- */
+            .nav-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 10, 14, 0.97);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+                padding: 15px 0 25px 0;
+                border-bottom: 1px solid var(--border);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                            transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                            visibility 0.3s;
+                pointer-events: none;
+            }
+
+            .nav-links.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                pointer-events: all;
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 14px 20px;
+                font-size: 1.05rem;
+                letter-spacing: 0.5px;
+            }
+
+            .nav-links a:hover,
+            .nav-links a:active {
+                color: var(--primary);
+                background: rgba(155, 93, 229, 0.08);
+            }
+
+            /* --- Hero Inicio --- */
+            #inicio {
+                padding-top: 105px;
+                min-height: auto;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+                margin-bottom: 14px;
+            }
+
+            .hero-title {
+                font-size: 2.6rem;
+                margin-bottom: 14px;
+                line-height: 1.15;
+            }
+
+            h2.hero-title {
+                font-size: 1.75rem;
+                line-height: 1.25;
+            }
+
+            .hero-desc {
+                font-size: 1.05rem;
+                margin-bottom: 30px;
+                line-height: 1.6;
+            }
+
+            /* --- Terminal --- */
+            .terminal-container {
+                margin-top: 30px;
+                max-width: 100%;
+            }
+
+            .terminal-body {
+                padding: 15px 16px;
+                font-size: 0.85rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* --- Sobre Mí --- */
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .about-avatar-wrapper {
+                order: -1;
+                margin-bottom: 5px;
+            }
+
+            .about-avatar {
+                max-width: 200px;
+            }
+
+            /* --- Proyectos --- */
+            .tabs-header {
+                gap: 8px;
+                padding-bottom: 10px;
+                margin-bottom: 25px;
+            }
+
+            .tab-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .tab-btn.active::after {
+                bottom: -11px;
+            }
+
+            .project-layout {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                padding: 24px 20px;
+            }
+
+            .project-img-placeholder {
+                height: 240px;
+            }
+
+            .project-info h3 {
+                font-size: 1.6rem;
+                margin-bottom: 12px;
+            }
+
+            .project-desc {
+                padding: 16px;
+                font-size: 0.95rem;
+                margin-bottom: 18px;
+            }
+
+            .tech-stack {
+                gap: 8px;
+                margin-bottom: 22px;
+            }
+
+            .tech-stack span {
+                font-size: 0.78rem;
+                padding: 4px 9px;
+            }
+
+            .project-links {
+                gap: 20px;
+            }
+
+            .project-links a {
+                font-size: 1.4rem;
+            }
+
+            /* --- Contacto --- */
+            .contact-box h2 {
+                font-size: 2rem;
+                margin-bottom: 16px;
+            }
+
+            .contact-box p {
+                font-size: 1rem;
+                margin-bottom: 30px;
+            }
+
+            /* Animación más suave en móvil */
+            .reveal {
+                transform: translateY(25px);
+                transition: all 0.6s ease-out;
+            }
+        }
+
+        /* ========================================================
+           RESPONSIVE - TELÉFONOS (<= 480px)
+           ======================================================== */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .nav-content {
+                height: 62px;
+                padding: 0 16px;
+            }
+
+            .logo {
+                font-size: 1.25rem;
+            }
+
+            .nav-links {
+                top: 62px;
+                padding: 12px 0 20px 0;
+            }
+
+            .nav-links a {
+                padding: 12px 16px;
+                font-size: 1rem;
+            }
+
+            section {
+                padding: 45px 0;
+            }
+
+            #inicio {
+                padding-top: 85px;
+            }
+
+            .section-title {
+                font-size: 1.35rem;
+                margin-bottom: 20px;
+            }
+
+            .hero-subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 10px;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+
+            h2.hero-title {
+                font-size: 1.35rem;
+                line-height: 1.3;
+            }
+
+            .hero-desc {
+                font-size: 0.95rem;
+                margin-bottom: 24px;
+            }
+
+            .btn {
+                display: inline-block;
+                width: 100%;
+                max-width: 280px;
+                text-align: center;
+                padding: 12px 20px;
+                font-size: 0.92rem;
+            }
+
+            .terminal-container {
+                margin-top: 24px;
+            }
+
+            .terminal-header {
+                padding: 8px 12px;
+            }
+
+            .term-dot {
+                width: 10px;
+                height: 10px;
+            }
+
+            .terminal-body {
+                padding: 12px;
+                font-size: 0.78rem;
+            }
+
+            /* --- Sobre Mí --- */
+            .about-avatar {
+                max-width: 160px;
+            }
+
+            .about-paragraph {
+                font-size: 0.92rem;
+                margin-bottom: 12px;
+            }
+
+            .skills-list {
+                gap: 8px;
+                font-size: 0.82rem;
+                margin-top: 15px;
+            }
+
+            /* --- Proyectos --- */
+            .tabs-header {
+                gap: 6px;
+                padding-bottom: 8px;
+                margin-bottom: 18px;
+            }
+
+            .tab-btn {
+                padding: 7px 12px;
+                font-size: 0.82rem;
+            }
+
+            .tab-btn.active::after {
+                bottom: -9px;
+            }
+
+            .project-layout {
+                padding: 16px 14px;
+                gap: 16px;
+                border-radius: 10px;
+            }
+
+            .project-img-placeholder {
+                height: 180px;
+                border-radius: 6px;
+            }
+
+            .project-info h3 {
+                font-size: 1.3rem;
+                margin-bottom: 10px;
+            }
+
+            .project-desc {
+                padding: 12px 14px;
+                font-size: 0.88rem;
+                margin-bottom: 14px;
+                border-left-width: 3px;
+            }
+
+            .tech-stack {
+                gap: 6px;
+                margin-bottom: 16px;
+            }
+
+            .tech-stack span {
+                font-size: 0.72rem;
+                padding: 3px 7px;
+            }
+
+            .project-links {
+                gap: 18px;
+            }
+
+            .project-links a {
+                font-size: 1.3rem;
+            }
+
+            /* --- Contacto --- */
+            .contact-box h2 {
+                font-size: 1.65rem;
+                margin-bottom: 12px;
+            }
+
+            .contact-box p {
+                font-size: 0.9rem;
+                margin-bottom: 22px;
+            }
+
+            footer {
+                padding: 24px 16px;
+                font-size: 0.82rem;
+            }
+        }
+
+        /* ========================================================
+           RESPONSIVE - DISPOSITIVOS MUY ESTRECHOS (<= 350px)
+           ======================================================== */
+        @media (max-width: 350px) {
+            .skills-list {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 1.75rem;
+            }
+
+            h2.hero-title {
+                font-size: 1.2rem;
+            }
+
+            .logo {
+                font-size: 1.15rem;
             }
         }
     </style>
@@ -411,8 +925,13 @@
 
     <nav>
         <div class="nav-content">
-            <a href="#" class="logo">Dev_<span>Kofu</span></a>
-            <ul class="nav-links">
+            <a href="#" class="logo">Portafolio <span>Kineyo</span></a>
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#sobre-mi">Sobre Mí</a></li>
                 <li><a href="#proyectos">Proyectos</a></li>
@@ -424,7 +943,7 @@
     <main class="container">
         <section id="inicio" class="reveal">
             <p class="hero-subtitle">Hola, mi nombre es</p>
-            <h1 class="hero-title">Dev_Kofu.</h1>
+            <h1 class="hero-title">Kineyo.</h1>
             <h2 class="hero-title" style="color: var(--text-muted);">Construyo agentes de Inteligencia Artificial.</h2>
             <p class="hero-desc">
                 Soy un desarrollador de software de 17 años especializado en la creación de Agentes de Inteligencia Artificial, usando modelos de ollama y arquitectura llama.cpp. Actualmente, estoy enfocado en construir Agentes ligeros y centrados en la eficiencia y experiencia del usuario.
@@ -440,35 +959,37 @@
                     <div class="term-dot dot-g"></div>
                 </div>
                 <div class="terminal-body">
-                    <span style="color: #61afef;">kofu</span><span style="color: var(--text-muted);"> @ </span><span style="color: #e06c75;">portafolio</span><span style="color: var(--text-main);">:~$</span>
+                    <span style="color: #61afef;">kineyo</span><span style="color: var(--text-muted);"> @ </span><span style="color: #e06c75;">portafolio</span><span style="color: var(--text-main);">:~$</span>
                     <span id="typewriter" class="typewriter-text"></span>
                 </div>
             </div>
         </section>
         <section id="sobre-mi" class="reveal">
             <h2 class="section-title"><span>01.</span> Sobre Mí</h2>
-            <div style="display: grid; grid-template-columns: 3fr 2fr; gap: 40px;">
-                <div>
-                    <p style="color: var(--text-muted); margin-bottom: 15px;">
-                        Hola, soy shebxyd-pixel, un apasionado por la programación y la Inteligencia Artificial. Mi interés por la creación de Agentes de Inteligencia Artificial nació cuando descubrí cómo automatizar tareas usando modelos de Ollama.
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="about-paragraph">
+                        Hola, soy Kineyo, un apasionado por la programación y la Inteligencia Artificial. Mi interés por la creación de Agentes de Inteligencia Artificial nació cuando descubrí cómo automatizar tareas usando modelos de Ollama.
                     </p>
-                    <p style="color: var(--text-muted); margin-bottom: 15px;">
+                    <p class="about-paragraph">
                         Tengo 17 años y mi enfoque principal es la creación de agentes de Inteligencia Artificial para automatizar diversas tareas de forma más sencilla.
                     </p>
-                    <p style="color: var(--text-muted);">
+                    <p class="about-paragraph">
                         Estos son algunos de los lenguajes con los que he estado trabajando recientemente y con los que estoy familiarizado:
                     </p>
-                    <ul style="list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-muted);">
-                        <li><span style="color: var(--primary);">▹</span> Python</li>
-                        <li><span style="color: var(--primary);">▹</span> PyInstaller</li>
-                        <li><span style="color: var(--primary);">▹</span> Ollama</li>
-                        <li><span style="color: var(--primary);">▹</span> C++</li>
-                        <li><span style="color: var(--primary);">▹</span> HTML, CSS & JS</li>
-                        <li><span style="color: var(--primary);">▹</span> Kotlin</li>
+                    <ul class="skills-list">
+                        <li><span class="skill-arrow">▹</span> Python</li>
+                        <li><span class="skill-arrow">▹</span> PyInstaller</li>
+                        <li><span class="skill-arrow">▹</span> Ollama</li>
+                        <li><span class="skill-arrow">▹</span> C++</li>
+                        <li><span class="skill-arrow">▹</span> HTML, CSS & JS</li>
+                        <li><span class="skill-arrow">▹</span> Kotlin</li>
                     </ul>
                 </div>
-                <div class="project-img-placeholder" style="height: auto; aspect-ratio: 1; border-radius: 50%; padding: 0; border: none;">
-                    <img src="imgs/shebxyd-pixel.png" alt="Perfil" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                <div class="about-avatar-wrapper">
+                    <div class="about-avatar">
+                        <img src="imgs/kineyo.jpeg" alt="Perfil">
+                    </div>
                 </div>
             </div>
         </section>
@@ -503,7 +1024,7 @@
                                 <span>IA Local</span>
                             </div>
                             <div class="project-links">
-                                <a href="https://github.com/shebxyd-pixel/Proyecto_Kofu" target="_blank" rel="noopener noreferrer" title="Ver Código"><i class="fa-brands fa-github"></i></a>
+                                <a href="https://github.com/Kineyo/Proyecto_Kofu" target="_blank" rel="noopener noreferrer" title="Ver Código"><i class="fa-brands fa-github"></i></a>
                                 <a href="#" title="Demo / Enlace"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                             </div>
                         </div>
@@ -527,7 +1048,7 @@
                                 <span>Ollama</span>                                 
                             </div>
                             <div class="project-links">
-                                <a href="https://github.com/shebxyd-pixel/Proyecto_Kofu/tree/LarIA-(Beta)" target="_blank" rel="noopener noreferrer" title="Ver Código"><i class="fa-brands fa-github"></i></a>
+                                <a href="https://github.com/kineyo/Proyecto_Kofu/tree/LarIA-(Beta)" target="_blank" rel="noopener noreferrer" title="Ver Código"><i class="fa-brands fa-github"></i></a>
                             </div>
                         </div>
                     </div>
@@ -536,7 +1057,7 @@
                 <div id="proj-Nara" class="tab-content">
                     <div class="project-layout">
                         <div class="project-img-placeholder" style="border: none; padding: 0;">
-                            <img src="imgs/shebxyd-pixel.png" alt="Proyecto Nara" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                            <img src="imgs/Nara.jpeg" alt="Proyecto Nara" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
                         </div>
                         <div class="project-info">
                             <h3 class="hero-subtitle">IA Portátil</h3>
@@ -550,7 +1071,7 @@
                                 <span>Llama.cpp</span>
                             </div>
                             <div class="project-links">
-                                <a href="https://github.com/shebxyd-pixel/Kofu_Mobile" target="_blank" rel="noopener noreferrer" title="Ver Código"><i class="fa-brands fa-github"></i></a>
+                                <a href="https://github.com/kineyo/Kofu_Mobile" target="_blank" rel="noopener noreferrer" title="Ver Código"><i class="fa-brands fa-github"></i></a>
                             </div>
                         </div>
                     </div>
@@ -559,7 +1080,7 @@
                 <div id="proj-55sh" class="tab-content">
                     <div class="project-layout">
                         <div class="project-img-placeholder" style="border: none; padding: 0;">
-                            <img src="imgs/shebxyd-pixel.png" alt="Proyecto" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                            <img src="imgs/gato.jpg" alt="Proyecto" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
                         </div>
                         <div class="project-info">
                             <h3 class="hero-subtitle">Juego Independiente</h3>
@@ -573,7 +1094,7 @@
                                 <span>Open Source</span>
                             </div>
                             <div class="project-links">
-                                <a href="https://github.com/shebxyd-pixel/55shG4M-" target="_blank" rel="noopener noreferrer" title="Ver Código"><i class="fa-brands fa-github"></i></a>
+                                <a href="https://github.com/kineyo/55shG4M-" target="_blank" rel="noopener noreferrer" title="Ver Código"><i class="fa-brands fa-github"></i></a>
                             </div>
                         </div>
                     </div>
@@ -596,7 +1117,7 @@
                                 <span>Kotlin</span>
                             </div>
                             <div class="project-links">
-                                <a href="https://shebxyd-pixel.github.io/" target="_blank" rel="noopener noreferrer" title="Visitar Sitio"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                <a href="https://kineyo.github.io/" target="_blank" rel="noopener noreferrer" title="Visitar Sitio"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                             </div>
                         </div>
                     </div>
@@ -604,7 +1125,7 @@
                 <div id="proj-Kroma" class="tab-content">
                     <div class="project-layout">
                         <div class="project-img-placeholder" style="border: none; padding: 0;">
-                            <img src="imgs/shebxyd-pixel.png" alt="Proyecto Kroma" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                            <img src="imgs/Kroma.jpeg" alt="Proyecto Kroma" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
                         </div>
                         <div class="project-info">
                             <h3 class="hero-subtitle">Suite Automatizada de edición</h3>
@@ -618,7 +1139,7 @@
                                 <span>Ollama</span>
                             </div>
                             <div class="project-links">
-                                <a href="https://github.com/shebxyd-pixel/Project_Kroma" target="_blank" rel="noopener noreferrer" title="Ver Código"><i class="fa-brands fa-github"></i></a>
+                                <a href="https://github.com/kineyo/Project_Kroma" target="_blank" rel="noopener noreferrer" title="Ver Código"><i class="fa-brands fa-github"></i></a>
                                 <a href="#" target="_blank" rel="noopener noreferrer" title="Visitar Sitio"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                             </div>
                         </div>
@@ -665,9 +1186,9 @@
     </main>
 
     <footer>
-        <p>Diseñado y Construido por Dev_Kofu</p>
+        <p>Diseñado y Construido por kineyo</p>
         <p style="font-size: 0.8rem; margin-top: 10px;">
-            <a href="https://github.com/shebxyd-pixel" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="https://github.com/Kineyo" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: none;"><i class="fa-brands fa-github"></i> GitHub</a>
         </p>
     </footer>
 
@@ -718,6 +1239,37 @@
         }
         setTimeout(typeWriter, 1000);
 
+        // Menú Hamburguesa para Móviles
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navToggle.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                document.body.classList.toggle('no-scroll');
+            });
+
+            // Cerrar menú al hacer clic en un enlace
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.classList.remove('no-scroll');
+                });
+            });
+
+            // Cerrar menú al hacer clic fuera del menú
+            document.addEventListener('click', (e) => {
+                if (!navLinks.contains(e.target) && !navToggle.contains(e.target)) {
+                    navToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.classList.remove('no-scroll');
+                }
+            });
+        }
+
         function revealOnScroll() {
             const reveals = document.querySelectorAll('.reveal');
             
@@ -728,7 +1280,7 @@
                     }
                 });
             }, {
-                threshold: 0.15
+                threshold: 0.08
             });
 
             reveals.forEach(reveal => {
